@@ -1,11 +1,7 @@
 require('dotenv/config') 
+const config = require("./config.json")
 const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v9');
-
-const commands = [{
-  name: 'ping',
-  description: 'Replies with Pong!'
-}]; 
+const { Routes } = require('discord-api-types/v9'); 
 
 const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
 
@@ -14,8 +10,8 @@ const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
     console.log('Started refreshing application (/) commands.');
 
     await rest.put(
-      Routes.applicationGuildCommands("970082455916797993", "962033791403163699"),
-      { body: commands },
+      Routes.applicationGuildCommands(config.applicationId, config.guildId),
+      { body: config.commands },
     );
 
     console.log('Successfully reloaded application (/) commands.');
