@@ -1,22 +1,24 @@
-require('dotenv/config') 
-const {Client, Intents} = require("discord.js")
-const config = require("./config.json")
-const client = new Client({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES]})
+const { Client, Intents } = require("discord.js");
+const NamePicker = require("./namePicker/namePicker");
+const config = require("./config.json");
+const client = new Client({
+  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
+});
 
 client.on("ready", () => {
-    console.log(`Logged in as ${client.user.tag}`)
-})
+  console.log(`Logged in as ${client.user.tag}`);
+});
 
-client.on("interactionCreate", async interaction => {
-    if (!interaction.isCommand()) return
+client.on("interactionCreate", async (interaction) => {
+  if (!interaction.isCommand()) return;
 
-    const { commandName } = interaction
+  const { commandName } = interaction;
 
-    if(commandName === "ping") {
-        interaction.member.setNickname("poopybutt")
-        interaction.reply("Name changed to poopybutt")
-    }
-    
-})
+  if (commandName === "changename") {
+    let name = NamePicker.getName(config.names);
+    interaction.member.setNickname(name);
+    interaction.reply(`Name changed to ${name}`);
+  }
+});
 
-client.login(config.token) 
+client.login(config.token);
