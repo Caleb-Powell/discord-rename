@@ -19,6 +19,10 @@ client.on("interactionCreate", async (interaction) => {
     interaction.member.setNickname(name);
     interaction.reply(`Name changed to ${name}`);
   }
+
+  if (commandName === "ping") {
+    interaction.reply("pong bitch");
+  }
 });
 
 client.login(config.token);
